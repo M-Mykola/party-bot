@@ -1,10 +1,12 @@
 const TelegramBot = require('node-telegram-bot-api');
 const constants = require('./constants');
-const token = '7844318271:AAEuDX86IOucARJdyx1iP5zF7S1KYqAA7fk';
 const mongooseConnection = require("./connections/db");
 const { saveEventToDatabase,setEventState} = require('./bot.service'); 
+require('dotenv').config();
 
-const bot = new TelegramBot(token, { polling: true });
+console.log('TOKE ', process.env.TOKEN);
+
+const bot = new TelegramBot(process.env.TOKEN, { polling: true });
 mongooseConnection();
 console.log("Telegram bot started!");
 
