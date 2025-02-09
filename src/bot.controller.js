@@ -1,5 +1,11 @@
+require('dotenv').config();
 const TelegramBot = require('node-telegram-bot-api');
 const constants = require('./constants');
+<<<<<<< HEAD
+=======
+
+const token = process.env.TOKEN;
+>>>>>>> 26e1969 (Minor chages env related)
 const mongooseConnection = require("./connections/db");
 const { saveEventToDatabase,setEventState} = require('./bot.service'); 
 require('dotenv').config();
@@ -11,6 +17,7 @@ mongooseConnection();
 console.log("Telegram bot started!");
 
 bot.onText(/\/start/, (msg) => {
+
   const chatId = msg.chat.id;
   const options = {
     reply_markup: {
@@ -29,11 +36,9 @@ bot.on('callback_query', async (callbackQuery) => {
     if(constants[selectedOption]){
         bot.sendMessage(chatId, `Ви вибрали: ${constants[selectedOption]}`);
     }
-    
-
     const result = await saveEventToDatabase(constants[selectedOption], creator, chatId);
+    
     if (!result.success) {
-
         const options = {
         reply_markup: {
           inline_keyboard: [
@@ -60,7 +65,21 @@ bot.on('callback_query', async (callbackQuery) => {
     } 
   });
   
-  
+  bot.onText(/\/add_members/, async(msg) => {
+    const namePrompt = await bot.sendMessage(msg.chat.id, "Any members here ?", {
+      reply_markup: {
+          force_reply: true,
+      },
+  });
+  bot.onReplyToMessage(msg.chat.id, namePrompt.message_id, async (nameMsg) => {
+      const name = nameMsg.text;
+      await bot.sendMessage(msg.chat.id, `Hello ${name} beach`);
+      await saveEventToDatabase(null,null,null, name);
+  });
+
+
+console.log('Message : ', msg.text)
+  })
   
   
 

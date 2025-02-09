@@ -1,2 +1,6 @@
 /node_modules
+<<<<<<< HEAD
 .env
+=======
+/.env
+>>>>>>> 26e1969 (Minor chages env related)
