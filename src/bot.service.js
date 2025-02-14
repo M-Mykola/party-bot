@@ -1,6 +1,6 @@
 const Event = require('./data.schema');  
 
-async function saveEventToDatabase(topic, creator, chatId) {
+async function saveEventToDatabase( creator, topic,chatId) {
   try {
     const activeEvent = await Event.findOne({ creator, isActive: true });
     if (activeEvent) {
@@ -17,8 +17,7 @@ async function saveEventToDatabase(topic, creator, chatId) {
       paid:false
     });
     await newEvent.save();
-    console.log('Новий event збережений!');
-    return { success: true, message: 'Епопея збережена!' };
+    return { success: true,};
   } catch (err) {
     console.error('Помилка збереження event:', err);
   }
